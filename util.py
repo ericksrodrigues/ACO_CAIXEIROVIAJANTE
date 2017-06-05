@@ -12,9 +12,10 @@ def generateCities(totalCities):
         })
     #Garantir conectividade da rede
     connecteds = []
-
-    while len(connecteds) < totalCities or random.random() < 0.85:
-        maxDistanceCity = 5
+    id_connections = 0
+    while len(connecteds) < totalCities or random.random() < 0.99999:
+        maxDistanceCity = 20
+        
 
         idcity = random.randrange(0,totalCities)
         if len(connecteds) < totalCities:
@@ -26,15 +27,16 @@ def generateCities(totalCities):
                 cities[idcity]['target_cities'].append(targetcity)
                 cities[targetcity]['target_cities'].append(idcity)
                 connecteds.append(idcity)
-                roads.append({"source": idcity,"target": targetcity, "distance": random.randint(1,maxDistanceCity), "pheromone": 0} if idcity < targetcity else {"source": targetcity,"target": idcity, "distance": random.randint(1,maxDistanceCity),"pheromone": 0})
+                roads.append({"id":id_connections, "source": idcity,"target": targetcity, "distance": random.randint(1,maxDistanceCity), "pheromone": 1.0} if idcity < targetcity else {"id":id_connections,"source": targetcity,"target": idcity, "distance": random.randint(1,maxDistanceCity),"pheromone": 1.0})
+                id_connections += 1
         else:
             #Gerar algumas aleatorias conexoes
             targetcity = connecteds[random.randrange(0,len(connecteds))]
             if(targetcity not in cities[idcity]['target_cities'] and idcity != targetcity):
                 cities[idcity]['target_cities'].append(targetcity)
                 cities[targetcity]['target_cities'].append(idcity)
-                roads.append({"source": idcity,"target": targetcity, "distance": random.randint(1,maxDistanceCity), "pheromone": 0} if idcity < targetcity else {"source": targetcity,"target": idcity, "distance": random.randint(1,maxDistanceCity),"pheromone": 0})
-
+                roads.append({"id":id_connections, "source": idcity,"target": targetcity, "distance": random.randint(1,maxDistanceCity), "pheromone": 1.0} if idcity < targetcity else {"id":id_connections,"source": targetcity,"target": idcity, "distance": random.randint(1,maxDistanceCity),"pheromone": 1.0})
+                id_connections += 1
     return {
         "cities": cities,
         "roads": roads

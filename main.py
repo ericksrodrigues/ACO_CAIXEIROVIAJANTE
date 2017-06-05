@@ -1,3 +1,9 @@
 import util
+import ACO
+import random
 from pprint import pprint
-pprint(util.generateCities(3))
+
+ambient = util.generateCities(20)
+antColony = ACO.antColony(len(ambient['cities']),random.randrange(0,len(ambient['cities'])))
+
+ACO.ACO(antColony,ambient,0.1)
