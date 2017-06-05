@@ -1,4 +1,5 @@
 import random
+import matplotlib.pyplot as plt
 from pprint import pprint
 
 def ant(original_position):
@@ -57,6 +58,9 @@ def move_ant(arr_probability):
     return arr_probability[i]["target"]
 
 def ACO(ant_colony, ambient, evaporation_coeficient):
+    pheromone = []
+    for i in range(0,len(ambient['roads'])):
+        pheromone.append([])
     flag = True
     while flag:
         for index,ant in enumerate(ant_colony):
@@ -93,12 +97,19 @@ def ACO(ant_colony, ambient, evaporation_coeficient):
         else:
             for index,ant in enumerate(ant_colony):
                 ant_colony[index]['memory_roads'] = []
-   
+
+        for index,road in enumerate(ambient['roads']):
+            pheromone[index].append(road['pheromone'])
+    
     pprint(ambient)
     distance = 0
+    for index,dataroad in enumerate(pheromone):
+        plt.plot(range(0,len(dataroad)), dataroad)
     for id_road in ant['memory_roads']:
         distance += ambient['roads'][id_road]['distance']
     pprint(distance)
+    plt.show()
+
     pprint(ant_colony[0]['memory_roads'])
     return ant_colony[0]['memory_roads']
     
